@@ -1,2 +1,2 @@
-gameManager/_pycache_
-/.gitignore
+gameManager\__pycache__
+.gitignore
