@@ -61,7 +61,6 @@ class Screen():
         self.on_cleanup()
     
     def create_enemy(self):
-        enemy = Enemy()
         self.enemy = []
         for _ in range(self.num_enemy):
             sprite = 'img\enemy/0.png'
@@ -70,6 +69,7 @@ class Screen():
             self.enemy.append(Enemy(pos,change,sprite))
 
     def show_enemy(self):
+        #Funcion que se deberia llamar --> "on_render"
         for i in range(self.num_enemy):
             enemy = self.enemy[i]
             self._display_surf.blit()
