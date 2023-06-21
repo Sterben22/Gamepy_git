@@ -30,6 +30,7 @@ class Screen():
         if event.type == QUIT:
             self.on_exit()
         keys = pygame.key.get_pressed()
+        self.player.move(keys)
         
     def on_loop(self):
         pass
