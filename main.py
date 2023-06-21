@@ -5,10 +5,7 @@ from pygame.locals import *
 from gameManager.player import Player
 from gameManager.enemy import Enemy
 
-
 class Screen():
-    global score
-
     def __init__(self):
         self._running = True
         self._display_surf = None
@@ -27,7 +24,7 @@ class Screen():
         self.clock = pygame.time.Clock()
         self.clock.tick(60)
         self.player = Player(20,20, "img/player/11.png")
-
+        self.create_enemy()
  
     def on_event(self, event):
         if event.type == QUIT:
@@ -41,6 +38,7 @@ class Screen():
         self._display_surf.blit(pygame.image.load("img/fondo.jpg"),(0,0))
         self._display_surf.blit(self.player._sprite, self.player.pos)
         self._display_surf.blit(pygame.font.Font('freesansbold.ttf', 20).render("Points: " + str(self.score), True, (255,255,255)), (5 , 5 ))
+        self.show_enemy()
         pygame.display.flip()
 
     def on_cleanup(self):
@@ -63,7 +61,7 @@ class Screen():
     def create_enemy(self):
         self.enemy = []
         for _ in range(self.num_enemy):
-            sprite = 'img\enemy/0.png'
+            sprite = 'img/enemy/0.png'
             pos = (random.randint(64, 737),random.randint(30, 180))
             change = (1.2,50)
             self.enemy.append(Enemy(pos,change,sprite))
@@ -72,7 +70,7 @@ class Screen():
         #Funcion que se deberia llamar --> "on_render"
         for i in range(self.num_enemy):
             enemy = self.enemy[i]
-            self._display_surf.blit()
+            self._display_surf.blit(enemy._sprite, enemy.pos)
 
     def colission():
         pass
