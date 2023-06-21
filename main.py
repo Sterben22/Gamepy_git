@@ -4,6 +4,9 @@ from pygame.locals import *
 
 from gameManager.player import Player
 from gameManager.enemy import Enemy
+from gameManager.bullet import Bullet
+from gameManager.collision import Collision
+
 
 class Screen():
     def __init__(self):
@@ -11,7 +14,9 @@ class Screen():
         self._display_surf = None
         self.player = None
         self.enemy = None
+        self.bullet = Bullet()
         self.clock = None
+        self.collision = Collision()
         self.size = self.weight, self.height = 800, 600
         self.score = 0
         self.num_enemy = 8
@@ -40,6 +45,7 @@ class Screen():
         self._display_surf.blit(self.player._sprite, self.player.pos)
         self._display_surf.blit(pygame.font.Font('freesansbold.ttf', 20).render("Points: " + str(self.score), True, (255,255,255)), (5 , 5 ))
         self.show_enemy()
+
         pygame.display.flip()
 
     def on_cleanup(self):
