@@ -4,9 +4,10 @@ from pygame.locals import *
 
 from gameManager.player import Player
 from gameManager.enemy import Enemy
-from gameManager.bullet import Bullet
-from gameManager.collision import Collision
+#from gameManager.bullet import Bullet
+#from gameManager.collision import Collision
 
+from gameManager.collision import isCollision
 
 class Screen():
     def __init__(self):
@@ -14,9 +15,8 @@ class Screen():
         self._display_surf = None
         self.player = None
         self.enemy = None
-        self.bullet = Bullet()
+        #self.bullet = Bullet()
         self.clock = None
-        self.collision = Collision()
         self.size = self.weight, self.height = 800, 600
         self.score = 0
         self.num_enemy = 8
@@ -45,7 +45,6 @@ class Screen():
         self._display_surf.blit(self.player._sprite, self.player.pos)
         self._display_surf.blit(pygame.font.Font('freesansbold.ttf', 20).render("Points: " + str(self.score), True, (255,255,255)), (5 , 5 ))
         self.show_enemy()
-
         pygame.display.flip()
 
     def on_cleanup(self):
@@ -69,22 +68,25 @@ class Screen():
         self.enemy = []
         for _ in range(self.num_enemy):
             sprite = 'img/enemy/0.png'
-            pos = (random.randint(64, 737),random.randint(30, 180))
-            change = (1.2,50)
-            self.enemy.append(Enemy(pos,change,sprite))
+            x,y= random.randint(64, 737),random.randint(30, 180)
+            self.enemy.append(Enemy(x,y,sprite))
 
     def show_enemy(self):
         #Funcion que se deberia llamar --> "on_render"
         for i in range(self.num_enemy):
             enemy = self.enemy[i]
+            #Implementar eliminacion del enemigo
             self._display_surf.blit(enemy._sprite, enemy.pos)
+            enemy.move(self.player)
+            if isCollision(self.player,enemy):
+                self.game_over()
 
     def colission():
         pass
-    def game_over():
+    def game_over(self):
         game_over_text = pygame.font.Font('freesansbold.ttf', 64).render("GAME OVER", True, (255,255,255))
-        return game_over_text
- 
+        self._display_surf.blit(game_over_text, (190, 250))
+    
 if __name__ == "__main__" :
     theApp = Screen()
     theApp.on_execute()
