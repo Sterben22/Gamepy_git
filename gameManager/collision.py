@@ -1,8 +1,10 @@
-import math
+import pygame
+from pygame.locals import *
 
 def isCollision(player, enemy):
-    distance = math.sqrt((math.pow(player.x - enemy.x,2)) + (math.pow(player.y - enemy.y,2)))
-    if distance <= 15:
+    rect1 = pygame.Rect(player.x, player.y, player.w, player.h)
+    rect2 = pygame.Rect(enemy.x, enemy.y, enemy.w, enemy.h)
+    if rect1.colliderect(rect2):
         return True
     else:
         return False

@@ -5,13 +5,16 @@ from pygame.locals import *
 from gameManager.player import Player
 from gameManager.enemy import Enemy
 #from gameManager.bullet import Bullet
-#from gameManager.collision import Collision
+
 
 from gameManager.collision import isCollision
+from gameManager.menu import *
 
 class Screen():
     def __init__(self):
         self._running = True
+        self.gaming = "Game"
+        self.cont = 0
         self._display_surf = None
         self.player = None
         self.enemy = None
@@ -20,6 +23,7 @@ class Screen():
         self.size = self.weight, self.height = 800, 600
         self.score = 0
         self.num_enemy = 8
+
  
     def on_init(self):
         pygame.init()
@@ -35,6 +39,10 @@ class Screen():
         if event.type == QUIT:
             self.on_exit()
         keys = pygame.key.get_pressed()
+        if keys[K_p]:
+            self.gaming = "Pause"
+        if keys[K_o]:
+            self.gaming = "Game"
         self.player.move(keys)
         
     def on_loop(self):
@@ -61,7 +69,16 @@ class Screen():
             for event in pygame.event.get():
                 self.on_event(event)
             self.on_loop()
-            self.on_render()
+            if self.gaming == "Game":
+                self.on_render()
+            elif self.gaming == "Pause":
+                pause_text = pygame.font.Font('freesansbold.ttf', 64).render("PAUSE", True, (255,255,255))
+                self._display_surf.blit(pause_text, (190, 250))
+                pygame.display.flip()
+            elif self.gaming == "GameOver":
+                game_over_text = pygame.font.Font('freesansbold.ttf', 64).render("GAME OVER", True, (255,255,255))
+                self._display_surf.blit(game_over_text, (250, 250))
+                pygame.display.flip()
         self.on_cleanup()
     
     def create_enemy(self):
@@ -79,13 +96,12 @@ class Screen():
             self._display_surf.blit(enemy._sprite, enemy.pos)
             enemy.move(self.player)
             if isCollision(self.player,enemy):
-                self.game_over()
+                game_over(self._display_surf)
+                self.gaming = "GameOver"
 
     def colission():
         pass
-    def game_over(self):
-        game_over_text = pygame.font.Font('freesansbold.ttf', 64).render("GAME OVER", True, (255,255,255))
-        self._display_surf.blit(game_over_text, (190, 250))
+    
     
 if __name__ == "__main__" :
     theApp = Screen()
