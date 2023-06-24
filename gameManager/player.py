@@ -1,30 +1,28 @@
 import pygame
 from pygame.locals import *
-   
+
+from .config import *
+
 class Player():
-    def __init__(self, x, y, path) -> None:
-        self.pos = self.x, self.y = x, y
-        self._sprite = pygame.image.load(path).convert()
-        self.w = self._sprite.get_width()
-        self.h = self._sprite.get_height()
-        self.pasos = 0
-    
+    def __init__(self, config: PlayerConfig):
+        self.pos = config.X, config.Y
+        self._sprite = pygame.image.load(config.SKIN).convert()
+
     def move(self, keys):
-        if self.pasos >= 9:
-            self.pasos = 0
-        elif keys[K_w] :
-            self.y -= 10
-        elif keys[K_a] :
-            self.x -= 10
+        x = self.pos[0]
+        y = self.pos[1]
+
+        if keys[K_w]:
+            y -= 5
+        elif keys[K_a]:
+            x -= 5
         elif keys[K_s]:
-            self.y += 10
-        elif keys[K_d] :
-            self.x += 10
-        
+            y += 5
+        elif keys[K_d]:
+            x += 5
 
-        self.pos = self.x, self.y
+        # Update position
+        self.pos = x, y
 
-
-
-if __name__ == "__main__" :
-    theApp = Player()
+    def render(self, surface):
+        surface.blit(self._sprite, self.pos)
