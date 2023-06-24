@@ -1,10 +1,7 @@
 import pygame
 from pygame.locals import *
 
-def isCollision(player, enemy):
-    rect1 = pygame.Rect(player.x, player.y, player.w, player.h)
-    rect2 = pygame.Rect(enemy.x, enemy.y, enemy.w, enemy.h)
-    if rect1.colliderect(rect2):
-        return True
-    else:
-        return False
+def checkCollision(player, enemy):
+    rect1 = pygame.Rect(player.pos[0], player.pos[1], player._sprite.get_width(), player._sprite.get_height())
+    rect2 = pygame.Rect(enemy.pos[0] , enemy.pos[1] , enemy._sprite.get_width() , enemy._sprite.get_height())
+    return rect1.colliderect(rect2)
