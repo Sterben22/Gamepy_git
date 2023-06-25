@@ -12,7 +12,8 @@ class MapConfig():
         self.BACKGROUND = skin
 
 class PlayerConfig():
-    def __init__(self, x, y, skin = "img/player/11.png"):
+    def __init__(self, x, y, skin ="img/player/up.png"):
+    #["img/player/down.png","img/player/left.png","img/player/right.png","img/player/up.png"]
         self.X = x
         self.Y = y
         self.SKIN = skin
