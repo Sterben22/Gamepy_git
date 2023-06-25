@@ -13,18 +13,20 @@ class MapConfig():
 
 class PlayerConfig():
     def __init__(self, x, y, skin ="img/player/up.png"):
-    #["img/player/down.png","img/player/left.png","img/player/right.png","img/player/up.png"]
         self.X = x
         self.Y = y
         self.SKIN = skin
-
+class BulletConfig():
+    def __init__(self, skin = "img/bullet/0.jpg"):
+        self.SKIN = skin
 class EnemyConfig():
     def __init__(self, skin = "img/enemy/0.png"):
         self.SKIN = skin
 
 class Config():
-    def __init__(self, mapConfig: MapConfig, playerConfig: PlayerConfig, enemyConfig: EnemyConfig, enemyNumber: int):
+    def __init__(self, mapConfig: MapConfig, playerConfig: PlayerConfig, enemyConfig: EnemyConfig, bulletConfig: BulletConfig,enemyNumber: int):
         self.MAP = mapConfig
         self.PLAYER = playerConfig
         self.ENEMY = enemyConfig
+        self.BULLET = bulletConfig
         self.ENEMY_NUMBER = enemyNumber

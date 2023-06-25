@@ -4,6 +4,7 @@ from pygame.locals import *
 from gameManager.map import Map
 from gameManager.player import Player
 from gameManager.enemy import Enemy
+from gameManager.bullet import Bullet
 from gameManager.collision import checkCollision
 from gameManager.menu import *
 from gameManager.config import *
@@ -19,6 +20,7 @@ class Game():
         self.mapa = Map(config.MAP)
         self.player = Player(config.PLAYER)
         self.enemy = list(map(lambda _: Enemy(config.ENEMY), [None]*config.ENEMY_NUMBER))
+        self.bullet = Bullet(config.BULLET)
 
         self.score = 0
 
@@ -29,6 +31,7 @@ class Game():
     def on_restart(self):
         self.player = Player(self.config.PLAYER)
         self.enemy = list(map(lambda _: Enemy(self.config.ENEMY), [None]*self.config.ENEMY_NUMBER))
+        self.score = 0
     
     def on_exit(self):
         self._running = False
@@ -38,9 +41,15 @@ class Game():
 
     def on_loop(self):
         for enemy in self.enemy:
-            enemy.move(self.player)
+            enemy.move()
             if checkCollision(self.player,enemy):
                 self.gaming = Gaming.GAMEOVER
+            if self.bullet.state:
+                self.bullet.move()
+                if checkCollision(enemy,self.bullet):
+                    enemy.new_pos()
+                    self.score += 1
+                    self.bullet.pos = -10,-10
 
     def on_event(self, event):
 
@@ -65,13 +74,17 @@ class Game():
                         if (self.gaming == Gaming.GAMEOVER):
                             self.on_restart()
                             self.gaming = Gaming.GAME
+                    case pygame.K_SPACE:
+                        self.bullet.posicion(self.player.pos,self.player.direccion)
 
             case pygame.QUIT:
                 self.on_exit()
 
     def on_render(self):
+
         self.mapa.render(self._display_surf)
         self.player.render(self._display_surf)
+        self.bullet.render(self._display_surf)
         for enemy in self.enemy:
             enemy.render(self._display_surf)
         self._display_surf.blit(pygame.font.Font('freesansbold.ttf', 20).render("Points: " + str(self.score), True, (255,255,255)), (5 , 5))
