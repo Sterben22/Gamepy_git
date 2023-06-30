@@ -36,7 +36,6 @@ class Player():
             x += 5
             self._sprite = pygame.transform.rotate(self.sprite_original, 270)
             self.direccion = 1
-            
 
         # Update position
         self.pos = x, y
