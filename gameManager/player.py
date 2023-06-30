@@ -7,8 +7,7 @@ class Player():
     def __init__(self, config: PlayerConfig):
         self.pos = config.X, config.Y
         self.sprite_original = pygame.image.load(config.SKIN)
-        self._sprite = self.sprite_original
-        
+        self._sprite = self.sprite_original 
 
     def move(self, keys):
         x = self.pos[0]
