@@ -1,9 +1,11 @@
 from enum import Enum
 
 class Gaming(Enum):
-    GAME = 1
-    PAUSE = 2
-    GAMEOVER = 3
+    MENU = 1
+    GAME = 2
+    PAUSE = 3
+    GAMEOVER = 4
+    QUIT = 5
 
 class MapConfig():
     def __init__(self, width, height, skin = "img/fondo.jpg"):

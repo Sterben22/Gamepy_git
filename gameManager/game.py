@@ -12,10 +12,11 @@ from gameManager.config import *
 class Game():
     def __init__(self, config: Config):
         self._running = True
-        self.gaming = Gaming.GAME
+        self.gaming = Gaming.MENU
         self.clock = pygame.time.Clock()
         self._display_surf = pygame.display.set_mode((config.MAP.WIDTH, config.MAP.HEIGHT), pygame.HWSURFACE | pygame.DOUBLEBUF)
         self.config = config
+        self.button = []
 
         self.mapa = Map(config.MAP)
         self.player = Player(config.PLAYER)
@@ -51,6 +52,7 @@ class Game():
                     self.score += 1
                     self.bullet.pos = -10,-10
 
+
     def on_event(self, event):
 
         if (self.gaming == Gaming.GAME):
@@ -76,6 +78,11 @@ class Game():
                             self.gaming = Gaming.GAME
                     case pygame.K_SPACE:
                         self.bullet.posicion(self.player.pos,self.player.direccion)
+            case pygame.MOUSEBUTTONDOWN:
+                if self.button[0].press(pygame.mouse.get_pos()):
+                    self.gaming = Gaming.GAME
+                if self.button[1].press(pygame.mouse.get_pos()):
+                    self.gaming = Gaming.QUIT
 
             case pygame.QUIT:
                 self.on_exit()
@@ -93,11 +100,11 @@ class Game():
     def on_execute(self):
         self.on_init()
         while self._running:  
-
             for event in pygame.event.get():
                 self.on_event(event)
-
             match self.gaming:
+                case Gaming.MENU:
+                    self.button = screen_menu(self._display_surf)
                 case Gaming.GAME:
                     self.on_render()
                     self.on_loop()
@@ -105,4 +112,6 @@ class Game():
                     pause(self._display_surf)
                 case Gaming.GAMEOVER:
                     game_over(self._display_surf)
+                case Gaming.QUIT:
+                    self._running = False
         pygame.quit()

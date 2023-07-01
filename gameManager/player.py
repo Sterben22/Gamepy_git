@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 
 from .config import *
-from .bullet import Bullet
 
 class Player():
     def __init__(self, config: PlayerConfig):
