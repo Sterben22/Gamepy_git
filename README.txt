@@ -10,3 +10,6 @@
     - Implementar sonido
 Por mejorar:
     - Que corra fluido en todas las maquinas
+
+#User: Ander
+Verificando si se publica bien
