@@ -43,10 +43,8 @@ class Bullet():
             x += self.change[0]
             y += self.change[1]
             
-
             # Update position
             self.pos = x, y
-        
     
     def render(self, surface):
         surface.blit(self._sprite, self.pos)
