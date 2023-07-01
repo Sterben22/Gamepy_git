@@ -10,9 +10,9 @@ from .menu import *
 class Enemy():
     def __init__(self, config: EnemyConfig):
         self.pos = random.randint(64, 737), random.randint(30, 180)
-        self.change = 2, 2
+        self.change = 0.5, 0.5
         self._sprite = pygame.image.load(config.SKIN)
-        self.speed=2
+        self.speed= 0.5
     
     def new_pos(self):
             x = random.randint(30, 800)

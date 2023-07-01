@@ -1,17 +1,15 @@
 import pygame
 from pygame.locals import *
 from .config import *
+
 class Bullet():
     def __init__(self,config:BulletConfig) -> None:
-        # True - la bala se mueve
-        # False - la bala no se mueve
         self.sprite_original = pygame.image.load(config.SKIN)
         self._sprite = self.sprite_original
         self.pos = (-10,-10)
         self.change = 0,0
         self.state = False
-
-    
+ 
     def posicion(self,player_pos,player_direccion):
         self.state = True
         x = player_pos[0]

@@ -7,6 +7,12 @@ class Gaming(Enum):
     GAMEOVER = 4
     QUIT = 5
 
+class Ort(Enum):
+    UP = 1
+    DOWN = 2
+    LEFT = 3
+    RIGHT = 4
+
 class MapConfig():
     def __init__(self, width, height, skin = "img/fondo.jpg"):
         self.WIDTH = width
