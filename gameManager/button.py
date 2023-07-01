@@ -8,7 +8,7 @@ class Button():
 		height = self.sprite.get_height()
 		self.image = pygame.transform.scale(self.sprite, (int(width * scale), int(height * scale)))
 		self.rect = self.image.get_rect()
-		self.rect.topleft = (x, y)
+		self.rect.topleft  = (x, y)
 		self.clicked = False
 
 	def press(self,pos):

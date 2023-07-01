@@ -104,6 +104,7 @@ class Game():
                 self.on_event(event)
             match self.gaming:
                 case Gaming.MENU:
+                    self.mapa.render(self._display_surf)                    
                     self.button = screen_menu(self._display_surf)
                 case Gaming.GAME:
                     self.on_render()

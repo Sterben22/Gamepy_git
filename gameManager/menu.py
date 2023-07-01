@@ -3,10 +3,11 @@ from pygame.locals import *
 from .button import Button
 
 def screen_menu(screen):
-    start_button = Button(100, 200, "img/start_btn.png", 0.8)
-    exit_button = Button(450, 200, "img/exit_btn.png", 0.8)
-    screen.blit(start_button.sprite,(100,200))
-    screen.blit(exit_button.sprite,(450,200))
+    start_button = Button(150, 300, "img/start_btn.png", 2)
+    exit_button = Button(500, 300, "img/exit_btn.png", 2)
+
+    screen.blit(start_button.sprite,start_button.rect.topleft)
+    screen.blit(exit_button.sprite,exit_button.rect.topleft)
     pygame.display.flip() 
     return [start_button,exit_button]   
 
