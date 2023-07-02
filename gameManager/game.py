@@ -89,7 +89,7 @@ class Game():
                             self.gaming = Gaming.GAME
 
                     case pygame.K_SPACE:
-                        self.bullet.posicion(self.player.pos,self.player.direccion)
+                        self.player.shoot()
             case pygame.MOUSEBUTTONDOWN:
                 if self.button[0].press(pygame.mouse.get_pos()):
                     self.gaming = Gaming.GAME
