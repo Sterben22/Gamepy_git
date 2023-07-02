@@ -1,48 +1,40 @@
 import pygame
-from pygame.locals import *
 from .config import *
 
 class Bullet():
-    def __init__(self,config:BulletConfig) -> None:
-        self.sprite_original = pygame.image.load(config.SKIN)
-        self._sprite = self.sprite_original
-        self.pos = (-10,-10)
-        self.change = 0,0
-        self.state = False
+    def __init__(self, config: BulletConfig, pos, ort):
+        self._sprite = pygame.image.load(config.SKIN)
+        self.pos = pos
+        self.ort = ort
+        self.speed = 300
  
-    def posicion(self,player_pos,player_direccion):
-        self.state = True
-        x = player_pos[0]
-        y = player_pos[1]
-
-        match player_direccion:
-            case 0:
-                self._sprite = pygame.transform.rotate(self.sprite_original, 0)
-                self.change = 0,-1
-            case 1:
-                self._sprite = pygame.transform.rotate(self.sprite_original, 270)
-                self.change = 1,0
-            case 2:
-                self._sprite = pygame.transform.rotate(self.sprite_original, 180)
-                self.change = 0,1
-            case 3:
-                self._sprite = pygame.transform.rotate(self.sprite_original, 90)
-                self.change = -1,0
-
-        self.pos = x, y
-
-
-    def move(self):
+    def move(self, dt):
         x = self.pos[0]
         y = self.pos[1]
         
-        if self.pos[0] <= 735 or self.pos[1] >= 0:
-            # Update change
-            x += self.change[0]
-            y += self.change[1]
-            
-            # Update position
-            self.pos = x, y
+        match self.ort:
+            case Ort.UP:
+                y -= self.speed*dt
+            case Ort.DOWN:
+                y += self.speed*dt
+            case Ort.LEFT:
+                x -= self.speed*dt
+            case Ort.RIGHT:
+                x += self.speed*dt
+ 
+        # Update position
+        self.pos = x, y
     
+    def getRotatedSprite(self):
+        match self.ort:
+            case Ort.UP:
+                return pygame.transform.rotate(self._sprite, 0)
+            case Ort.DOWN:
+                return pygame.transform.rotate(self._sprite, 180)
+            case Ort.LEFT:
+                return pygame.transform.rotate(self._sprite, 90)
+            case Ort.RIGHT:
+                return pygame.transform.rotate(self._sprite, 270)
+
     def render(self, surface):
-        surface.blit(self._sprite, self.pos)
+        surface.blit(self.getRotatedSprite(), self.pos)
