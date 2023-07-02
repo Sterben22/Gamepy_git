@@ -5,6 +5,7 @@ from .config import *
 from .bullet import *
 
 class Player():
+
     def __init__(self, playerConfig: PlayerConfig, bulletConfig: BulletConfig):
         self.pos = playerConfig.X, playerConfig.Y
         self._sprite = pygame.image.load(playerConfig.SKIN)
