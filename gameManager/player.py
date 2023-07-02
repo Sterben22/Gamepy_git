@@ -2,32 +2,40 @@ import pygame
 from pygame.locals import *
 
 from .config import *
+from .bullet import *
 
 class Player():
-    def __init__(self, config: PlayerConfig):
-        self.pos = config.X, config.Y
-        self._sprite = pygame.image.load(config.SKIN)
+    def __init__(self, playerConfig: PlayerConfig, bulletConfig: BulletConfig):
+        self.pos = playerConfig.X, playerConfig.Y
+        self._sprite = pygame.image.load(playerConfig.SKIN)
         self.ort = Ort.UP
+        self.speed = playerConfig.SPEED 
+        self.bulletConfig = bulletConfig
+        self.bullets = []
+
+    def shoot(self):
+        self.bullets.append(Bullet(self.bulletConfig, self.pos, self.ort))
         
-    def move(self, keys):
+    def move(self, mov):
         x = self.pos[0]
         y = self.pos[1]
 
-        if keys[K_w]:
-            y -= 5
-            self.ort = Ort.UP
+        match mov:
+            case Mov.UP:
+                y -= self.speed
+                self.ort = Ort.UP
 
-        elif keys[K_a]:
-            x -= 5
-            self.ort = Ort.LEFT
+            case Mov.DOWN:
+                y += self.speed
+                self.ort = Ort.DOWN
 
-        elif keys[K_s]:
-            y += 5
-            self.ort = Ort.DOWN
-           
-        elif keys[K_d]:
-            x += 5
-            self.ort = Ort.RIGHT
+            case Mov.LEFT:
+                x -= self.speed
+                self.ort = Ort.LEFT
+
+            case Mov.RIGHT:
+                x += self.speed
+                self.ort = Ort.RIGHT
 
         # Update position
         self.pos = x, y

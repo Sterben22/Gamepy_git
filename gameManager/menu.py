@@ -1,28 +1,47 @@
 import pygame
-from pygame.locals import *
 from .button import Button
 
-def screen_menu(screen):
-    start_button = Button(100, 200, "img/start_btn.png", 0.8)
-    exit_button = Button(450, 200, "img/exit_btn.png", 0.8)
-    screen.blit(start_button.sprite,(100,200))
-    screen.blit(exit_button.sprite,(450,200))
-    pygame.display.flip() 
-    return [start_button,exit_button]   
+def centerRect(width, height, sprite, x, y):
+    sprite_rect = sprite.get_rect()
+    sprite_rect.center = (width / 2 + x, height / 2 - y)
+    return sprite_rect
 
-def game_over(screen):
-    game_over_text = pygame.font.Font('freesansbold.ttf', 64).render("GAME OVER", True, (255,255,255))
-    restart_text = pygame.font.Font('freesansbold.ttf', 64).render("PRESS R", True, (255,255,255))
-    to_text = pygame.font.Font('freesansbold.ttf', 64).render("TO RESTART", True, (255,255,255))
-    screen.blit(game_over_text, (190, 200))
-    screen.blit(restart_text, (260, 280))
-    screen.blit(to_text, (200, 360))
+def screen_menu(surface):
+    width = surface.get_width()
+    height = surface.get_height()
+
+    startGame = Button("img/start_btn.png", 0.8)
+    exitGame = Button("img/exit_btn.png", 0.8)
+
+    startGame._rect = centerRect(width, height, startGame._sprite, -180, 0)
+    exitGame._rect = centerRect(width, height, exitGame._sprite, 180, 0) 
+
+    surface.blit(startGame._sprite, startGame._rect)
+    surface.blit(exitGame._sprite, exitGame._rect)
+
+    pygame.display.flip()
+
+    return startGame, exitGame
+
+def game_over(surface):
+    width = surface.get_width()
+    height = surface.get_height()
+
+    gameover = pygame.font.Font('freesansbold.ttf', 64).render("GAME OVER", True, (255,255,255))
+    restart = pygame.font.Font('freesansbold.ttf', 64).render("PRESS R TO RESTART", True, (255,255,255))
+    
+    surface.blit(gameover, centerRect(width, height, gameover, 0, 32))
+    surface.blit(restart, centerRect(width, height, restart, 0, -32))
 
     pygame.display.flip()    
 
-def pause(screen):
-    game_over_text = pygame.font.Font('freesansbold.ttf', 64).render("PAUSE", True, (255,255,255))
-    screen.blit(game_over_text, (280, 260))
-    pygame.display.flip()
+def pause(surface):
+    width = surface.get_width()
+    height = surface.get_height()
+
+    pause = pygame.font.Font('freesansbold.ttf', 64).render("PAUSE", True, (255,255,255))
     
+    surface.blit(pause, centerRect(width, height, pause, 0, 0))
+
+    pygame.display.flip()
     

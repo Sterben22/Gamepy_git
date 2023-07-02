@@ -1,21 +1,12 @@
 import pygame
 
-#button class
+from .menu import *
+
 class Button():
-	def __init__(self, x, y, image, scale):
-		self.sprite = pygame.image.load(image)
-		width = self.sprite.get_width()
-		height = self.sprite.get_height()
-		self.image = pygame.transform.scale(self.sprite, (int(width * scale), int(height * scale)))
-		self.rect = self.image.get_rect()
-		self.rect.topleft = (x, y)
-		self.clicked = False
+    def __init__(self, image, scale):
+        sprite = pygame.image.load(image)
+        self._sprite = pygame.transform.scale(sprite, (sprite.get_width() * scale, sprite.get_height() * scale))
+        self._rect = self._sprite.get_rect()
 
-	def press(self,pos):
-		action = False
-		if self.rect.collidepoint(pos):
-				action = True
-
-		return action
-
-		
+    def press(self, pos):
+        return self._rect.collidepoint(pos)
