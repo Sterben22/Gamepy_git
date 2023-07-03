@@ -15,8 +15,9 @@ class Player():
         self.bullets = []
 
     def shoot(self):
-        self.bullets.append(Bullet(self.bulletConfig, self.pos, self.ort))
-        
+        center = self._sprite.get_rect().center
+        self.bullets.append(Bullet(self.bulletConfig, (self.pos[0] + center[0], self.pos[1] + center[1]), self.ort))
+
     def move(self, mov):
         x = self.pos[0]
         y = self.pos[1]
