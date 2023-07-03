@@ -37,4 +37,6 @@ class Bullet():
                 return pygame.transform.rotate(self._sprite, 270)
 
     def render(self, surface):
-        surface.blit(self.getRotatedSprite(), self.pos)
+        rect = self._sprite.get_rect()
+        rect.center = self.pos
+        surface.blit(self.getRotatedSprite(), rect)
