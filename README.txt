@@ -1,8 +1,7 @@
 #User: Sterben
-====================================
-
-====================================  
-  Ya esta el codigo funcionando al 60%
+Ya esta el codigo funcionando al 80%
+  1.- Falta hacer PullRequest con la rama "needClean"
+  2.- En la rama "needClean" se esta trabajando el proyecto, lo cual cambiar se pide al espectador cambiar de rama.
   Falta:
     - Implementar mas niveles
     - Mas enemigos nuevos enemigos con "move_player"
