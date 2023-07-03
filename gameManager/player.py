@@ -12,6 +12,7 @@ class Player():
         self.ort = Ort.UP
         self.speed = playerConfig.SPEED 
         self.bulletConfig = bulletConfig
+        self.score = 0
         self.bullets = []
 
     def shoot(self):

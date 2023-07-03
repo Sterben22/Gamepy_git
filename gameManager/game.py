@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
 
+import random
+
 from gameManager.map import Map
 from gameManager.player import Player
 from gameManager.enemy import Enemy
@@ -18,20 +20,21 @@ class Game():
         self.config = config
         self.button = []
         self.move_tick = 0
+        self.enemy_tick = 0
+
+        self.invaders = 0
 
         self.mapa = Map(config.MAP)
         self.player = Player(config.PLAYER, config.BULLET)
-        self.enemys = list(map(lambda _: Enemy(config.ENEMY, (60, 60)), [None]))
-
-        self.score = 0
+        self.enemys = []
 
     def on_init(self):
         pygame.init()
 
     def on_restart(self):
         self.player = Player(self.config.PLAYER, self.config.BULLET)
-        self.enemys = list(map(lambda _: Enemy(self.config.ENEMY, (60, 60)), [None]))
-        self.score = 0
+        self.enemys = []
+        self.invaders = 0
     
     def on_exit(self):
         self._running = False
@@ -43,15 +46,40 @@ class Game():
         if self.move_tick > 0:
             self.move_tick -= 1
 
+        if self.enemy_tick > 0:
+            self.enemy_tick -= 1
+
         dt = self.clock.tick(self.config.FRAME_RATE) / 1000
+
         for enemy in self.enemys:
             enemy.move(dt)
-            if checkCollision(self.player,enemy):
+            if enemy.pos[1] >= self.config.MAP.HEIGHT:
+                self.invaders += 1
+                self.enemys.remove(enemy)
+
+        for bullet in self.player.bullets:
+            bullet.move(dt)
+            if bullet.pos[0] < 0 or bullet.pos[0] > self.config.MAP.WIDTH or bullet.pos[1] < 0 or bullet.pos[1] > self.config.MAP.HEIGHT:
+                self.player.bullets.remove(bullet)
+
+        for enemy in self.enemys:
+            if checkCollision(self.player, enemy):
                 self.gaming = Gaming.GAMEOVER
         
         for bullet in self.player.bullets:
-            bullet.move(dt)
+            for enemy in self.enemys:
+                if checkCollision(enemy, bullet):
+                    self.enemys.remove(enemy)
+                    self.player.bullets.remove(bullet)
+                    self.player.score += 1
 
+        if (len(self.enemys) <= self.player.score // 2 and self.enemy_tick == 0):
+            self.enemy_tick = 120
+            self.enemys.append(Enemy(self.config.ENEMY, (random.randint(30, self.config.MAP.WIDTH - 30), random.randint(20, 30))))
+
+        if self.invaders >= 10:
+            self.gaming = Gaming.GAMEOVER
+        
     def on_event(self, event):
         if (self.gaming == Gaming.GAME and self.move_tick == 0):
             self.move_tick = 2
@@ -114,7 +142,9 @@ class Game():
         for bullet in self.player.bullets:
             bullet.render(self._display_surf)
 
-        self._display_surf.blit(pygame.font.Font('freesansbold.ttf', 20).render("Points: " + str(self.score), True, (255,255,255)), (5 , 5))
+        self._display_surf.blit(pygame.font.Font('freesansbold.ttf', 20).render("Points: " + str(self.player.score), True, (255,255,255)), (5 , 5))
+        self._display_surf.blit(pygame.font.Font('freesansbold.ttf', 20).render("Invaders: " + str(self.invaders), True, (255,255,255)), (5 , 25))
+
         pygame.display.flip()
 
     def on_execute(self):
@@ -135,6 +165,4 @@ class Game():
                 case Gaming.QUIT:
                     self._running = False
         pygame.quit()
-
-
 
