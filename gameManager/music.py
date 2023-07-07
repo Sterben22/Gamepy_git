@@ -11,7 +11,7 @@ class Music:
     def play_effect(self):
         sound = pygame.mixer.Sound(self.filepath)
         sound.play()
-    def play_music_back(self, loop=-1,volume=0):
+    def play_music_back(self,volume=0.3):
         pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(-1)
 

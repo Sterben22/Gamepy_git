@@ -38,6 +38,8 @@ class Game():
         self.player = Player(self.config.PLAYER, self.config.BULLET)
         self.enemys = []
         self.invaders = 0
+        self.config.ENEMY.SPEED = 60
+        self.config.ENEMY.SKIN = "img/enemy/0.png"
     
     def on_exit(self):
         self._running = False
@@ -91,10 +93,13 @@ class Game():
                     self.enemys.remove(enemy)
                     self.player.bullets.remove(bullet)
                     self.player.score += 1
+                    
 
         if (len(self.enemys) <= self.player.score // 2 and self.enemy_tick == 0):
             self.enemy_tick = 120
+            self.config.ENEMY.SKIN = f"img/enemy/{random.randint(0,11)}.png"
             self.enemys.append(Enemy(self.config.ENEMY, (random.randint(30, self.config.MAP.WIDTH - 30), random.randint(20, 30))))
+            self.config.ENEMY.SPEED += 0.5
 
         if self.invaders >= 10:
             self.gaming = Gaming.GAMEOVER
