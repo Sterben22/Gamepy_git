@@ -63,6 +63,15 @@ class Game():
                 self.invaders += 1
                 self.enemys.remove(enemy)
 
+        if self.player.pos[0] < 0:
+            self.player.pos = (self.config.MAP.WIDTH, self.player.pos[1])
+        if self.player.pos[0] > self.config.MAP.WIDTH:
+            self.player.pos = (0, self.player.pos[1])
+        if self.player.pos[1] < 0:
+            self.player.pos = (self.player.pos[0], self.config.MAP.HEIGHT)
+        if self.player.pos[1] > self.config.MAP.HEIGHT:
+            self.player.pos = (self.player.pos[0], 0)
+
 
         for bullet in self.player.bullets:
             bullet.move(dt)
@@ -116,6 +125,7 @@ class Game():
                     case pygame.K_p:
                         match self.gaming:
                             case Gaming.PAUSE:
+                                self.clock.tick(self.config.FRAME_RATE)
                                 self.gaming = Gaming.GAME
                             case Gaming.GAME:
                                 self.gaming = Gaming.PAUSE
@@ -133,10 +143,11 @@ class Game():
                         self.player.shoot()
 
             case pygame.MOUSEBUTTONDOWN:
-                if self.button[0].press(pygame.mouse.get_pos()):
-                    self.gaming = Gaming.GAME
-                if self.button[1].press(pygame.mouse.get_pos()):
-                    self.gaming = Gaming.QUIT
+                if self.gaming == Gaming.MENU:
+                    if self.button[0].press(pygame.mouse.get_pos()):
+                        self.gaming = Gaming.GAME
+                    if self.button[1].press(pygame.mouse.get_pos()):
+                        self.gaming = Gaming.QUIT
 
             case pygame.QUIT:
                 self.on_exit()
@@ -169,6 +180,7 @@ class Game():
                     self.mapa.render(self._display_surf)                    
                     self.button = screen_menu(self._display_surf)
                 case Gaming.GAME:
+                    self.button = []
                     self.on_render()
                     self.on_loop()
                 case Gaming.PAUSE:
