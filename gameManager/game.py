@@ -58,8 +58,11 @@ class Game():
         for enemy in self.enemys:
             enemy.move(dt)
             if enemy.pos[1] >= self.config.MAP.HEIGHT:
+                self.music_effect.filepath= "music\Small_EnemyExplosion.mp3"
+                self.music_effect.play_effect()
                 self.invaders += 1
                 self.enemys.remove(enemy)
+
 
         for bullet in self.player.bullets:
             bullet.move(dt)
@@ -68,6 +71,8 @@ class Game():
 
         for enemy in self.enemys:
             if checkCollision(self.player, enemy):
+                self.music_effect.filepath= "music\Player_Explosion.mp3"
+                self.music_effect.play_effect()
                 self.gaming = Gaming.GAMEOVER
 
         for bullet in self.player.bullets:

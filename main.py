@@ -8,7 +8,7 @@ if __name__ == "__main__" :
     enemy = EnemyConfig(60, "img/enemy/0.png")
     bullet = BulletConfig("img/bullet/0.png")
 
-    config = Config(mapa, player, enemy, bullet, 60)
+    config = Config(mapa, player, enemy, bullet, 60) #60frame
 
     # Execute game
     game = Game(config)
