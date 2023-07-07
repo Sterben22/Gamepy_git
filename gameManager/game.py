@@ -6,7 +6,7 @@ import random
 from gameManager.map import Map
 from gameManager.player import Player
 from gameManager.enemy import Enemy
-from gameManager.music import MusicPlayer
+from gameManager.music import Music
 from gameManager.collision import checkCollision
 from gameManager.menu import *
 from gameManager.config import *
@@ -26,13 +26,14 @@ class Game():
 
         self.mapa = Map(config.MAP)
         self.player = Player(config.PLAYER, config.BULLET)
-        self.music = [MusicPlayer("music\Pista_GameBattle.wav"),MusicPlayer("music\Player_Explosion.mp3"),MusicPlayer("music\Player_LaserShot.mp3"),MusicPlayer("music\Small_EnemyExplosion.mp3")]
+        self.music = Music("music/Pista_GameBattle.wav")
+        self.music_effect = Music("music/Player_LaserShot.mp3")
         self.enemys = []
 
     def on_init(self):
         pygame.init()
-        for music in self.music:
-            music.load_music()
+        self.music.load_music()
+
 
     def on_restart(self):
         self.player = Player(self.config.PLAYER, self.config.BULLET)
@@ -67,14 +68,13 @@ class Game():
 
         for enemy in self.enemys:
             if checkCollision(self.player, enemy):
-                self.music[1].play_music()
                 self.gaming = Gaming.GAMEOVER
-                self.music[1].stop_music()
 
         for bullet in self.player.bullets:
             for enemy in self.enemys:
                 if checkCollision(enemy, bullet):
-                    self.music[3].play_music()
+                    self.music_effect.filepath= "music\Player_Explosion.mp3"
+                    self.music_effect.play_effect()
                     self.enemys.remove(enemy)
                     self.player.bullets.remove(bullet)
                     self.player.score += 1
@@ -123,9 +123,10 @@ class Game():
                             self.gaming = Gaming.GAME
 
                     case pygame.K_SPACE:
-                        self.music[2].play_music()
+                        self.music_effect.filepath= "music\Player_LaserShot.mp3"
+                        self.music_effect.play_effect()
                         self.player.shoot()
-                        self.music[2].stop_music()
+
             case pygame.MOUSEBUTTONDOWN:
                 if self.button[0].press(pygame.mouse.get_pos()):
                     self.gaming = Gaming.GAME
@@ -153,8 +154,9 @@ class Game():
 
     def on_execute(self):
         self.on_init()
-        self.music[0].play_music(-1)
-        while self._running:  
+        self.music.play_music_back(-1) 
+        while self._running:
+             
             for event in pygame.event.get():
                 self.on_event(event)
             match self.gaming:
