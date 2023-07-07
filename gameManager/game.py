@@ -58,7 +58,7 @@ class Game():
         for enemy in self.enemys:
             enemy.move(dt)
             if enemy.pos[1] >= self.config.MAP.HEIGHT:
-                self.music_effect.filepath= "music\Small_EnemyExplosion.mp3"
+                self.music_effect.filepath= "music/Small_EnemyExplosion.mp3"
                 self.music_effect.play_effect()
                 self.invaders += 1
                 self.enemys.remove(enemy)
@@ -71,14 +71,14 @@ class Game():
 
         for enemy in self.enemys:
             if checkCollision(self.player, enemy):
-                self.music_effect.filepath= "music\Player_Explosion.mp3"
+                self.music_effect.filepath= "music/Player_Explosion.mp3"
                 self.music_effect.play_effect()
                 self.gaming = Gaming.GAMEOVER
 
         for bullet in self.player.bullets:
             for enemy in self.enemys:
                 if checkCollision(enemy, bullet):
-                    self.music_effect.filepath= "music\Player_Explosion.mp3"
+                    self.music_effect.filepath= "music/Player_Explosion.mp3"
                     self.music_effect.play_effect()
                     self.enemys.remove(enemy)
                     self.player.bullets.remove(bullet)
@@ -128,7 +128,7 @@ class Game():
                             self.gaming = Gaming.GAME
 
                     case pygame.K_SPACE:
-                        self.music_effect.filepath= "music\Player_LaserShot.mp3"
+                        self.music_effect.filepath= "music/Player_LaserShot.mp3"
                         self.music_effect.play_effect()
                         self.player.shoot()
 
