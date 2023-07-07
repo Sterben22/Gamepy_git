@@ -26,14 +26,13 @@ class Game():
 
         self.mapa = Map(config.MAP)
         self.player = Player(config.PLAYER, config.BULLET)
-        self.music = Music("music/Pista_GameBattle.wav")
-        self.music_effect = Music("music/Player_LaserShot.mp3")
+        self.music = Music("music/Pista_GameBattle.wav") #musica de fondo
+        self.music_effect = Music("music/Player_LaserShot.mp3") #musica de efecto
         self.enemys = []
 
     def on_init(self):
         pygame.init()
         self.music.load_music()
-
 
     def on_restart(self):
         self.player = Player(self.config.PLAYER, self.config.BULLET)
@@ -161,7 +160,6 @@ class Game():
         self.on_init()
         self.music.play_music_back(-1) 
         while self._running:
-             
             for event in pygame.event.get():
                 self.on_event(event)
             match self.gaming:
